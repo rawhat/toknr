@@ -39,9 +39,15 @@ function sortByTokens(strings, ignoreCase=false) {
     const bTokens = getTokens(b)
 
     for (const [aToken, bToken] of zip(aTokens, bTokens)) {
+      if (!aToken && bToken) {
+        return -1
+      } else if (aToken && !bToken) {
+        return 1
+      }
       if (
         (!ignoreCase && aToken === bToken) ||
-        aToken.toLowerCase() === bToken.toLowerCase()
+        ((typeof aToken === 'string' && typeof bToken === 'string')
+        && aToken.toLowerCase() === bToken.toLowerCase())
       ){
         continue
       }
